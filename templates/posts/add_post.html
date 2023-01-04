@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+<!-- content -->
+{% load static %}
+
+{% block content %}
+
+<h1>Добавить пост</h1>
+
+
+    <div class="row">
+
+        <form action="{% url 'posts:add_post' %}" method="post", enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="max-width: 300px;">
+            {{ form.title.label }}
+            {{ form.title }}
+            {{ form.url.label }}
+            {{ form.url }}
+            {{ form.post.label }}
+            {{ form.media }}
+            {{ form.post }}
+            {{ form.image_header.label }}
+            {{form.image_header}}
+            <input type="hidden" name="category" value="" >
+            <input type="submit" class="btn btn btn-secondary" value="Опубликовать" style="margin-top: 10px;">
+            </div>
+            
+        </form>
+    
+    </div>
+
+{% endblock %}
+<!-- end content -->

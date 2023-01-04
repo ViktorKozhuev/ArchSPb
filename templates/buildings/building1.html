@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+<!-- content -->
+{% load static %}
+
+{% block content %}
+
+
+<div class="row mb-2" style="margin-top: 20px;">
+    <div class="col-md-12 blog-main">
+        <div class="blog-post">
+            <h1>{{ building.title }}</h1>
+            <div class="desc1-left col-md-6">
+                <img src="{{ building.image.url }}" class="img-fluid" alt="">
+            </div>
+
+            <div>
+                <span><b>Год:</b> {{ building.year }}</span>
+            </div>
+            <div style="list-style: none">
+                <span><b>Архитекторы: </b>
+                    {% for a in building.architect.all %}
+                        <a href="{{ a.get_absolute_url }}">
+                            {{ a.name }} 
+                        </a>
+                    {% endfor %}
+                </span>
+            </div>
+            <div>
+                <span><b>Улица: </b>
+                    {% for s in building.street.all %}
+                    <a href="{{ s.get_absolute_url }}">
+                        {{ s.name }} 
+                    </a>
+                    {% endfor %}
+                </span>
+                <span>{{ building.housenumber }} </span>
+                {% if  building.letter %}
+                <span>building.letter </span>
+                {% endif %}
+            </div>
+            <div>
+                <span><b>Стиль: </b> {{ building.archstyle }}</span>
+            </div>
+            <div>
+                <span><b>Категория: </b> {{ building.category }}</span>
+            </div>
+            <br>
+            <h2>Описание: </h2>
+            <div>
+                {{ building.text|safe }}
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div> 
+
+<div class="row">
+    <div class="single-form-left">
+        <!-- contact form grid -->
+        <div class="contact-single">
+            <h5 class="editContent" style="outline: none; cursor: inherit;">Комментарии: 
+                            <span class="sub-tittle editContent">{{ building.buildingcomment_set.count }}</span></h5>
+            <form action="{% url 'add_comment' building.id %}" method="post" class="mt-4" id="formReview">
+                {% csrf_token %}
+                <input type="hidden" name="parent" id="contactparent" value="">
+
+                <div class="form-group editContent">
+                    <label for="contactcomment" class="editContent">
+                        Ваш комментарий *
+                    </label>
+                    <textarea class="form-control border" rows="5" name="comment"
+                              id="contactcomment" required=""></textarea>
+                </div>
+
+                <button type="submit" 
+                        class="mt-3 btn btn-success btn-block py-3">
+                    Отправить
+                </button>
+            </form>
+
+        </div>
+        <!--  //contact form grid ends here -->
+    </div>
+</div>
+
+
+
+    {% for comment in building.get_comment %}
+    
+        <div class="media py-5">
+              <img src="{% static 'images/te2.jpg' %}" class="mr-3 img-fluid" alt="image">    
+                    <span class="mt-0 editContent">
+                        {{ comment.profile }}
+                    </span>
+                        <div class="media-body mt-4">                          
+                            <p class="mt-2 editContent">
+                                {{ comment.comment }}
+                            </p>
+                            <a href="#formReview" onclick="addReview('{{ comment.profile }}', '{{ comment.id }}')">Ответ</a>
+                            {% for c in comment.buildingcomment_set.all %}
+                            <div class="media mt-5 editContent" style="outline: none; cursor: inherit;">
+                                <a class="pr-3" href="#">
+                                    <img src="{% static 'images/te2.jpg' %}" class="img-fluid " alt="image">
+                                </a>
+                                <div class="media-body">
+                                    <span class="mt-0 editContent">{{ c.profile }}</span>
+                                <p class="mt-2 editContent">{{ c.comment }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+        </div>
+        <script>
+            function addReview(name, id) {
+                document.getElementById("contactparent").value = id;
+                document.getElementById("contactcomment").innerText = `${name}, `
+
+            }
+        </script>
+
+    {% endfor %}
+
+
+{% endblock %}
+<!-- end content -->

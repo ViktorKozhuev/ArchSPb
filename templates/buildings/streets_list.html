@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+<!-- content -->
+{% block content %}
+<h2>{{ title }}</h2>
+
+<div class="row mb-2" style="margin-top: 20px;">
+  <ol class="list-unstyled mb-0">  
+  {% for s in streets %}
+  <li><a href="{{ s.get_absolute_url }}">{{ s.name }}</a></li>
+  {% endfor %}
+  </ol>
+  
+</div>        
+{% endblock %}
+<!-- end content -->

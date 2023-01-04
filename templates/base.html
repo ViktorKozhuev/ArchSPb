@@ -1,0 +1,100 @@
+{% load building_tag %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    
+    <!-- <link href="https://bootstrap-4.ru/docs/4.0/examples/blog/blog.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="container" style="min-height: 100%; margin-bottom: 120px;">
+        <header class="blog-header py-3">
+          <div class="row flex-nowrap justify-content-between align-items-center">
+
+            <div class="col-4 text-center">
+              <a class="blog-header-logo text-dark" href="{% url 'home' %}">Архитектура Петербурга</a>
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+              <!--
+              <a class="text-muted" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+              </a>
+              -->
+              {% if request.user.is_authenticated %}
+                <a class="btn btn-sm btn-outline-secondary" style="margin-right: 5px;" href="{% url 'users:profile' %}">{{ user.username }}</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:logout' %}">Выйти</a>
+                
+                {% else %}         
+                    <a class="btn btn-sm btn-outline-secondary" style="margin-right: 5px;" href="{% url 'users:register' %}">Регистрация</a> <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:login' %}">Войти</a>
+                {% endif %}
+              <!--<a class="btn btn-sm btn-outline-secondary" href="{% url 'users:login' %}">Войти</a>-->
+            </div>
+          </div>
+        </header>
+  
+        <div class="nav-scroller py-1 mb-2">
+          <nav class="nav d-flex justify-content-center">
+            <a class="p-2 text-muted" href="{% url 'archstyles' %}">Стили</a>
+            <a class="p-2 text-muted" href="{% url 'architects' %}">Архитекторы</a>
+            <a class="p-2 text-muted" href="{% url 'posts:index' %}">Статьи</a>            
+            <a class="p-2 text-muted" href="{% url 'streets' %}">Улицы</a>
+            </nav>
+        </div>
+        <div class="row">
+        <!-- left -->
+        <aside class="col-md-3 blog-sidebar">
+          <div class="p-3 mb-3 bg-light rounded">
+            <h4 class="font-italic">О сайте</h4>
+            <p class="mb-0">Сайт посвященный архитектуре Санкт-Петербурга. Статьи и заметки об интересных зданиях нашего города.</p>
+          </div>
+
+          <div class="p-3">
+            <h4 class="font-italic">Категории</h4>
+            <ol class="list-unstyled mb-0">
+              {% get_categories as categories %}
+              {% for c in categories %}
+              <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+              {% endfor %}
+            </ol>
+          </div>
+
+          <div class="p-3">
+            <h4 class="font-italic">Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Facebook</a></li>
+            </ol>
+          </div>
+        </aside>
+        <!-- left end -->
+
+        <div class="col-md-9 blog-main">
+        <!-- content -->
+        {% block content %}
+        {% endblock %}
+      
+        <!-- end content -->
+      </div>
+    </div>
+      </div>
+
+      <footer class="blog-footer" style="height: 120px;  margin-top: -120px;">
+        <p>&copy; 2022 Частичное или полное копирование информации с данного сайта для распространения на других ресурсах, в том числе и бумажных, разрешено.</p>
+        <p>
+          <a href="#">Back to top</a>
+        </p>
+      </footer>
+
+</body>

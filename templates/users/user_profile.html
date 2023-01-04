@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="content-section">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ user.profile.photo.url }}" width="120" height="120">
+      <div class="media-body">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+        <a class="btn btn-secondary" href="{% url 'posts:add_post' %}">Добавить пост</a>
+      </div>
+    </div>
+     <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{form}}
+        </div>
+        <div class="form-group">
+            <button class="btn btn-secondary" type="submit">Обновить</button>
+        </div>
+    </form>
+  </div>
+{% endblock %}
