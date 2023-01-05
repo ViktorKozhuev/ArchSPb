@@ -27,6 +27,9 @@ urlpatterns = [
 
 ]
 
+handler404 = "arch_spb.views.page_not_found_view"
+handler500 = 'arch_spb.views.my_custom_error_view'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    

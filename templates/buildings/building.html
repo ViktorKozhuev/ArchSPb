@@ -56,7 +56,27 @@
 
         </div>
     </div>
-</div> 
+</div>
+
+{% if building.lat and building.lag %}
+<h4>{{ building.title }} на карте</h4>
+<div id = "map" style = "width:500px; height:500px; margin-bottom: 50px;"></div>
+<link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+<script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script>
+  var lat = parseFloat("{{building.lat}}".replace(',','.'));
+  var lag = parseFloat("{{building.lag}}".replace(',','.'));
+  var mapOptions = {
+    center: [lat, lag],
+    zoom: 17
+    }
+  var map = new L.map('map', mapOptions);
+  var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+  var marker = new L.Marker([lat, lag]);
+  marker.addTo(map);
+  map.addLayer(layer);
+</script>
+{% endif %} 
 
 <div class="row">
     <div class="single-form-left">

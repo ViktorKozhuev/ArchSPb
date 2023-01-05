@@ -145,3 +145,4 @@ def add_comment(request, pk):
     else:
         return HttpResponse(status=405)
     return HttpResponse(status=500)
+

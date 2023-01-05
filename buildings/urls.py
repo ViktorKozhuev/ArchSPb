@@ -16,7 +16,7 @@ urlpatterns = [
     path('street/<slug:slug>/', BuildingsStreet.as_view(), name='street'),
     path('category/<slug:category_url>/', BuildingsCategory.as_view(), name='category'),
 
-    # path('<slug:slug>/', ShowBuilding.as_view(), name='building'),
-
 
     ]
+
+

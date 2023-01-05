@@ -78,10 +78,4 @@ def add_post(request):
     return render(request, 'posts/add_post.html', context)
 
 
-class AddPage(LoginRequiredMixin, CreateView):
-    form_class = CreatePostForm
-    template_name = 'posts/add_post.html'
-    success_url = reverse_lazy('home')
-    login_url = reverse_lazy('home')
-    raise_exception = True
 
